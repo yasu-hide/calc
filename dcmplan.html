@@ -12,6 +12,7 @@ var plans = [
         "fee"  : 743,
         "free" : 0,
         "callfee_title" : function(duration, callofmonth) {
+            return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回";
         },
         "callfee" : function(duration, callofmonth) {
             var totalcall = duration * callofmonth;
@@ -78,7 +79,7 @@ function g() {
         var callfee_title = pvalues["callfee_title"](duration, callofmonth);
         var callfee = pvalues["callfee"](duration, callofmonth);
         var totalfee = (fee + callfee + optionfee);
-        if(callfee > free) {
+        if(callfee >= free) {
             totalfee -= free;
         }
         var html = "" +
