@@ -8,6 +8,18 @@
 //<![CDATA[
 var plans = [
     {
+        "name" : "タイプシンプル",
+        "fee"  : 743,
+        "free" : 0,
+        "callfee_title" : function(duration, callofmonth) {
+        },
+        "callfee" : function(duration, callofmonth) {
+            var totalcall = duration * callofmonth;
+            var fee_of_minutes = 20 * 2;
+            return fee_of_minutes * totalcall;
+        }
+    },
+    {
         "name" : "タイプSS",
         "fee"  : 934,
         "free" : 1000,
