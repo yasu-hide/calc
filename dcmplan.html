@@ -12,7 +12,7 @@ var plans = [
         "fee"  : 934,
         "free" : 1000,
         "callfee_title" : function(duration, callofmonth) {
-            return "(20円 * 2) * " + duration + "分 * " + callofmonth + "日";
+            return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回";
         },
         "callfee" : function(duration, callofmonth) {
             var totalcall = duration * callofmonth;
@@ -26,14 +26,14 @@ var plans = [
         "free" : 0,
         "callfee_title" : function(duration, callofmonth) {
             if(duration > 5) {
-                return "(20円 * 2) * (" + duration + "分 - 5分)";
+                return "(20円 * 2) * (" + duration + "分 - 5分) * " + callofmonth + "回";
             }
             return "0";
         },
         "callfee" : function(duration, callofmonth) {
             var fee_of_minutes = 20 * 2;
             if(duration > 5) {
-                return fee_of_minutes * (duration - 5);
+                return fee_of_minutes * callofmonth * (duration - 5);
             }
             return 0;
         }
@@ -101,7 +101,7 @@ input[type="number"]:focus {
 <body onload="g();">
 <form action="#" id="f" name="f">
 <p>1回の平均通話時間<input type="number" name="duration" onchange="g();" value="5" onclick="this.select(0, this.value.length);" min="0" autofocus />分</p>
-<p>1カ月の通話日数<input type="number" name="callof" onclick="this.select(0, this.value.length);" onchange="g();" size="5" value="30" max="31" min="1" />日</p>
+<p>1カ月の通話回数<input type="number" name="callof" onclick="this.select(0, this.value.length);" onchange="g();" size="5" value="30" max="31" min="1" />回</p>
 </form>
 <hr />
 <table>
