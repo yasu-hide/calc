@@ -11,10 +11,10 @@ var plans = [
         "name" : "タイプシンプル",
         "fee"  : 743,
         "free" : 0,
-        "callfee_title" : function(duration, callofmonth) {
+        "callfee_title" : function(duration, callofmonth, free) {
             return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回";
         },
-        "callfee" : function(duration, callofmonth) {
+        "callfee" : function(duration, callofmonth, free) {
             var totalcall = duration * callofmonth;
             var fee_of_minutes = 20 * 2;
             return fee_of_minutes * totalcall;
@@ -24,26 +24,26 @@ var plans = [
         "name" : "タイプSS",
         "fee"  : 934,
         "free" : 1000,
-        "callfee_title" : function(duration, callofmonth) {
-            return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回";
+        "callfee_title" : function(duration, callofmonth, free) {
+            return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回 - " + free + "円";
         },
-        "callfee" : function(duration, callofmonth) {
+        "callfee" : function(duration, callofmonth, free) {
             var totalcall = duration * callofmonth;
             var fee_of_minutes = 20 * 2;
-            return fee_of_minutes * totalcall;
+            return fee_of_minutes * totalcall - free;
         }
     },
     {
         "name" : "カケホL",
         "fee"  : 1200,
         "free" : 0,
-        "callfee_title" : function(duration, callofmonth) {
+        "callfee_title" : function(duration, callofmonth, free) {
             if(duration > 5) {
                 return "(20円 * 2) * (" + duration + "分 - 5分) * " + callofmonth + "回";
             }
             return "0";
         },
-        "callfee" : function(duration, callofmonth) {
+        "callfee" : function(duration, callofmonth, free) {
             var fee_of_minutes = 20 * 2;
             if(duration > 5) {
                 return fee_of_minutes * callofmonth * (duration - 5);
@@ -55,10 +55,10 @@ var plans = [
         "name" : "カケホ",
         "fee"  : 2200,
         "free" : 0,
-        "callfee_title" : function(duration, callofmonth) {
+        "callfee_title" : function(duration, callofmonth, free) {
             return "0";
         },
-        "callfee" : function(duration, callofmonth) {
+        "callfee" : function(duration, callofmonth, free) {
             return 0;
         }
     }
@@ -76,12 +76,9 @@ function g() {
         var name = pvalues["name"];
         var fee  = pvalues["fee"];
         var free = pvalues["free"];
-        var callfee_title = pvalues["callfee_title"](duration, callofmonth);
-        var callfee = pvalues["callfee"](duration, callofmonth);
+        var callfee_title = pvalues["callfee_title"](duration, callofmonth, free);
+        var callfee = pvalues["callfee"](duration, callofmonth, free);
         var totalfee = (fee + callfee + optionfee);
-        if(callfee >= free) {
-            callfee -= free;
-        }
         var html = "" +
             "<td>" + name + "</td>" +
             "<td>" + fee  + "</td>" +
