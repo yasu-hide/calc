@@ -38,6 +38,44 @@ var plans = [
         }
     },
     {
+        "name" : "タイプS",
+        "fee"  : 1500,
+        "free" : 3000,
+        "callfee_title" : function(duration, callofmonth, free) {
+            var totalfee = (18 * 2) * duration * callofmonth;
+            if(totalfee >= free) {
+                return "(18円 * 2) * " + duration + "分 * " + callofmonth + "回 - " + free + "円";
+            }
+            return "(18円 * 2) * " + duration + "分 * " + callofmonth + "回 - " + totalfee + "円";
+        },
+        "callfee" : function(duration, callofmonth, free) {
+            var totalfee = (18 * 2) * duration * callofmonth;
+            if(totalfee >= free) {
+                return totalfee - free;
+            }
+            return 0;
+        }
+    },
+    {
+        "name" : "タイプM",
+        "fee"  : 2500,
+        "free" : 5000,
+        "callfee_title" : function(duration, callofmonth, free) {
+            var totalfee = (14 * 2) * duration * callofmonth;
+            if(totalfee >= free) {
+                return "(14円 * 2) * " + duration + "分 * " + callofmonth + "回 - " + free + "円";
+            }
+            return "(14円 * 2) * " + duration + "分 * " + callofmonth + "回 - " + totalfee + "円";
+        },
+        "callfee" : function(duration, callofmonth, free) {
+            var totalfee = (14 * 2) * duration * callofmonth;
+            if(totalfee >= free) {
+                return totalfee - free;
+            }
+            return 0;
+        }
+    },
+    {
         "name" : "カケホL",
         "fee"  : 1200,
         "free" : 0,
