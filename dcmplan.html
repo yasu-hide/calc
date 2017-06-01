@@ -15,9 +15,7 @@ var plans = [
             return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回";
         },
         "callfee" : function(duration, callofmonth, free) {
-            var totalcall = duration * callofmonth;
-            var fee_of_minutes = 20 * 2;
-            return fee_of_minutes * totalcall;
+            return (20 * 2) * duration * callofmonth;
         }
     },
     {
@@ -28,9 +26,11 @@ var plans = [
             return "(20円 * 2) * " + duration + "分 * " + callofmonth + "回 - " + free + "円";
         },
         "callfee" : function(duration, callofmonth, free) {
-            var totalcall = duration * callofmonth;
-            var fee_of_minutes = 20 * 2;
-            return fee_of_minutes * totalcall - free;
+            var totalfee = (20 * 2) * duration * callofmonth;
+            if(totalfee >= free) {
+                return totalfee - free;
+            }
+            return totalfee;
         }
     },
     {
