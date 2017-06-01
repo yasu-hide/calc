@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>計算機</title>
+<script type="text/javascript">
+//<![CDATA[
+var plans = [
+    {
+        "name" : "タイプSS",
+        "fee"  : 934,
+        "free" : 1000,
+        "callfee" : function(duration, callofmonth, free) {
+            var totalcall = duration * callofmonth;
+            var fee_of_minutes = 20 * 2;
+            return  fee_of_minutes * totalcall;
+        }
+    },
+    {
+        "name" : "カケホL",
+        "fee"  : 1200,
+        "free" : 0,
+        "callfee" : function(duration, callofmonth, free) {
+            var fee_of_minutes = 20 * 2;
+            if(duration > 5) {
+                return fee_of_minutes * (duration - 5);
+            }
+            return 0;
+        }
+    },
+    {
+        "name" : "カケホ",
+        "fee"  : 2200,
+        "free" : 0,
+        "callfee" : function(duration, callofmonth, free) {
+            return 0;
+        }
+    }
+];
+var optionfee = 300;
+
+function g() {
+    var duration = parseInt(document.f.duration.value);
+    var callofmonth = parseInt(document.f.callof.value);
+    var planelement = document.getElementById("plans");
+    while(planelement.firstChild) {
+        planelement.removeChild(planelement.firstChild);
+    }
+    for(var pvalues of plans) {
+        var name = pvalues["name"];
+        var fee  = pvalues["fee"];
+        var free = pvalues["free"];
+        var callfee = pvalues["callfee"](duration, callofmonth, free);
+        var totalfee = (fee + callfee + optionfee);
+        if(callfee > free) {
+            totalfee -= free;
+        }
+        var html = "" +
+            "<td>" + name + "</td>" +
+            "<td>" + fee  + "</td>" +
+            "<td>" + callfee + "</td>" +
+            "<td>" + free + "</td>" +
+            "<td>" + optionfee + "</td>" +
+            "<td>" + totalfee + "</td>";
+        tr_elem = document.createElement("tr");
+        tr_elem.innerHTML = html;
+        planelement.appendChild(tr_elem);
+    }
+}
+//]]>
+</script>
+<style type="text/css">
+table, td, th { border: 2px #808080 solid; }
+input[type="text"],input[type="number"] {
+    border: 1px solid #999;
+    background-color: #fff;
+    font-size: 16px;
+}
+input[type="number"]:focus {
+    border: 1px solid #ff9900;
+    background-color: #ffee66;
+    outline: 0;
+}
+</style>
+</head>
+
+<body onload="g();">
+<form action="#" id="f" name="f">
+<p>1回の平均通話時間<input type="number" name="duration" onchange="g();" value="5" onclick="this.select(0, this.value.length);" min="0" autofocus />分</p>
+<p>1カ月の通話日数<input type="number" name="callof" onclick="this.select(0, this.value.length);" onchange="g();" size="5" value="30" max="31" min="1" />日</p>
+</form>
+<hr />
+<table>
+<thead>
+    <th>プラン名</th>
+    <th>基本料金</th>
+    <th>通話料金</th>
+    <th>無料通話分</th>
+    <th>オプション</th>
+    <th>通話支払額</th>
+</thead>
+<tbody id="plans"></tbody>
+</table>
+</body>
+</html>

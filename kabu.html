@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>計算機</title>
+<script type="text/javascript">
+//<![CDATA[
+function g() {
+    var initial = parseInt(document.f.initial.value);
+    var max = parseFloat(document.f.max.value) * 0.01;
+    var min = parseFloat(document.f.min.value) * 0.01;
+
+    var maxv = Math.ceil(initial * (1 + max));
+    var minv = Math.floor(initial * (1 - min));
+
+    document.f.maxv.value = maxv;
+    document.f.minv.value = minv;
+
+    document.getElementById("r").innerText = "+" + (-1 * (initial - maxv));
+    document.getElementById("s").innerText = "-" + (initial - minv);
+}
+//]]>
+</script>
+<style type="text/css">
+input[type="text"],input[type="number"] {
+  border: 1px solid #999;
+  background-color: #fff;
+  font-size: 16px;
+}
+input[type="number"]:focus {
+  border: 1px solid #ff9900;
+  background-color: #ffee66;
+  outline: 0;
+}
+</style>
+</head>
+<body>
+<form action="#" id="f" name="f">
+<p>価格<input type="number" name="initial" onchange="g();" value="0" onclick="this.select(0,this.value.length);" autofocus />円</p>
+<p>利確点<input type="number" name="max" onclick="this.select(0,this.value.length);" onchange="g();" size="5" value="0" max="100" min="1" />%</p>
+<p>損切点<input type="number" name="min" onclick="this.select(0,this.value.length);" onchange="g();" size="5" value="0" max="100" min="1" />%</p>
+<hr />
+<p>利確価格<input type="text" name="maxv" value="0" onclick="this.select(0,this.value.length);" readonly />円（<span id="r">　</span>）</p>
+<p>損切価格<input type="text" name="minv" value="0" onclick="this.select(0,this.value.length);" readonly />円（<span id="s">　</span>）</p>
+</form>
+</body>
+</html>
