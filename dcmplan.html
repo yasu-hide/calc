@@ -80,13 +80,12 @@ function g() {
         var callfee = pvalues["callfee"](duration, callofmonth);
         var totalfee = (fee + callfee + optionfee);
         if(callfee >= free) {
-            totalfee -= free;
+            callfee -= free;
         }
         var html = "" +
             "<td>" + name + "</td>" +
             "<td>" + fee  + "</td>" +
             "<td title=\"" + callfee_title + "\">" + callfee + "</td>" +
-            "<td>" + free + "</td>" +
             "<td>" + optionfee + "</td>" +
             "<td>" + totalfee + "</td>";
         tr_elem = document.createElement("tr");
@@ -122,7 +121,6 @@ input[type="number"]:focus {
     <th>プラン名</th>
     <th>基本料金</th>
     <th>通話料金</th>
-    <th>無料通話分</th>
     <th>オプション</th>
     <th>通話支払額</th>
 </thead>
