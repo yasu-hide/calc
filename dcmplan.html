@@ -11,17 +11,26 @@ var plans = [
         "name" : "タイプSS",
         "fee"  : 934,
         "free" : 1000,
-        "callfee" : function(duration, callofmonth, free) {
+        "callfee_title" : function(duration, callofmonth) {
+            return "(20円 * 2) * " + duration + "分 * " + callofmonth + "日";
+        },
+        "callfee" : function(duration, callofmonth) {
             var totalcall = duration * callofmonth;
             var fee_of_minutes = 20 * 2;
-            return  fee_of_minutes * totalcall;
+            return fee_of_minutes * totalcall;
         }
     },
     {
         "name" : "カケホL",
         "fee"  : 1200,
         "free" : 0,
-        "callfee" : function(duration, callofmonth, free) {
+        "callfee_title" : function(duration, callofmonth) {
+            if(duration > 5) {
+                return "(20円 * 2) * (" + duration + "分 - 5分)";
+            }
+            return "0";
+        },
+        "callfee" : function(duration, callofmonth) {
             var fee_of_minutes = 20 * 2;
             if(duration > 5) {
                 return fee_of_minutes * (duration - 5);
@@ -33,7 +42,10 @@ var plans = [
         "name" : "カケホ",
         "fee"  : 2200,
         "free" : 0,
-        "callfee" : function(duration, callofmonth, free) {
+        "callfee_title" : function(duration, callofmonth) {
+            return "0";
+        },
+        "callfee" : function(duration, callofmonth) {
             return 0;
         }
     }
@@ -51,7 +63,8 @@ function g() {
         var name = pvalues["name"];
         var fee  = pvalues["fee"];
         var free = pvalues["free"];
-        var callfee = pvalues["callfee"](duration, callofmonth, free);
+        var callfee_title = pvalues["callfee_title"](duration, callofmonth);
+        var callfee = pvalues["callfee"](duration, callofmonth);
         var totalfee = (fee + callfee + optionfee);
         if(callfee > free) {
             totalfee -= free;
@@ -59,7 +72,7 @@ function g() {
         var html = "" +
             "<td>" + name + "</td>" +
             "<td>" + fee  + "</td>" +
-            "<td>" + callfee + "</td>" +
+            "<td title=\"" + callfee_title + "\">" + callfee + "</td>" +
             "<td>" + free + "</td>" +
             "<td>" + optionfee + "</td>" +
             "<td>" + totalfee + "</td>";
